@@ -2,7 +2,7 @@
   "name": "prueba",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://ferchaxx.github.io/prueba",
+  "homepage": "http://ferchaxx.github.io/portfolio",
   "dependencies": {
     "@fortawesome/fontawesome-free-brands": "^5.0.13",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
