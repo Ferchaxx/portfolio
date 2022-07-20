@@ -16,6 +16,7 @@ import {
   faLinkedin
     
 } from '@fortawesome/fontawesome-free-brands';
+import frases from './frases.js';
 
 class App extends React.Component{
 
@@ -23,7 +24,9 @@ class App extends React.Component{
 
       super(props);
       this.state = {
-        currentPage: 'Home'
+        currentPage: 'Home',
+        lanReplegado: false,
+        currentLanguage: 'Español (Es)'
       };
 
       this.handleNav = this.handleNav.bind(this);
@@ -38,6 +41,9 @@ class App extends React.Component{
       this.loop = undefined;
       this.handleLoop = this.handleLoop.bind(this);
       this.handleScreen = this.handleScreen.bind(this);
+      this.handleLan = this.handleLan.bind(this);
+      this.handleEspanol = this.handleEspanol.bind(this);
+      this.handleEnglish = this.handleEnglish.bind(this);
       
 
     }; // fin constructor
@@ -65,6 +71,8 @@ class App extends React.Component{
             $('#nav-responsive-container').toggleClass('nav__responsive-animation');
             $('#nav__responsive').toggleClass('nav__responsive-none')
                                  .toggleClass('nav__responsive-yes');
+            $('#nav-responsive-lan').toggleClass('nav-responsive-lan-none')
+                                 .toggleClass('nav-responsive-lan-yes');
 
           })
 
@@ -83,6 +91,8 @@ class App extends React.Component{
             $('#nav-responsive-container').toggleClass('nav__responsive-animation');
             $('#nav__responsive').toggleClass('nav__responsive-none')
                                  .toggleClass('nav__responsive-yes');
+            $('#nav-responsive-lan').toggleClass('nav-responsive-lan-none')
+                                 .toggleClass('nav-responsive-lan-yes');
 
         })
 
@@ -265,7 +275,54 @@ class App extends React.Component{
 
       
 
-    }
+    } // fin handleScreen
+
+    handleLan(){
+
+      let lanReplegado = this.state.lanReplegado;
+      
+
+      
+
+        console.log(lanReplegado);
+
+        if(!lanReplegado){
+
+          this.setState({
+            lanReplegado: true
+          });
+          // $('#language__ul').css('opacity', 1);
+
+        }else{
+
+          this.setState({
+            lanReplegado: false
+          });
+          // $('#language__ul').css('opacity', 0);
+
+        }
+
+    
+
+    } // fin handleLan
+
+    handleEspanol(){
+
+      this.setState({
+        currentLanguage: 'Español (Es)',
+        lanReplegado: false
+      });
+
+    } // fin handleEspanol
+
+    handleEnglish(){
+
+      this.setState({
+        currentLanguage: 'English (En)',
+        lanReplegado: false
+      });
+
+    } // fin handleEnglis
 
     componentDidMount(){
 
@@ -279,15 +336,26 @@ class App extends React.Component{
 
     render(){
 
+      const language = this.state.currentLanguage;
+      const espanol = 'Español (Es)';
+      const pregunta = language === espanol;
+
       return(
 
         <div className='wrapper'>
           
-          <Nav  currentPage={this.state.currentPage}
+          <Nav  currentLanguage={this.state.currentLanguage}
+                currentPage={this.state.currentPage}
                 handleNav={this.handleNav}
                 handleButtonNav={this.handleButtonNav}
                 handleResNav={this.handleResNav}
-                handleHome={this.handleHome}/>
+                handleHome={this.handleHome}
+                handleLan={this.handleLan}
+                handleEspanol={this.handleEspanol}
+                handleEnglish={this.handleEnglish}
+                lanReplegado={this.state.lanReplegado}
+                language={this.state.currentLanguage}
+                frases={frases}/>
           
           <div className='leftside'>
             <ul className='leftside__ul'>
@@ -304,18 +372,24 @@ class App extends React.Component{
 
           <Home handleAbout={this.handleAbout}
                 handleProjects={this.handleProjects}
-                handleContact={this.handleContact}/>
+                handleContact={this.handleContact}
+                language={this.state.currentLanguage}
+                frases={frases}/>
 
           <Carousel  handleCarouselRight={this.handleCarouselRight}
-                     handleCarouselLeft={this.handleCarouselLeft}/>
+                     handleCarouselLeft={this.handleCarouselLeft}
+                     language={this.state.currentLanguage}
+                     frases={frases}/>
 
           <section id='contact' >
             <div className='contact__container'  >
-              <h2 className='contact__title titles fade' >Contactame</h2>
-              <p className='contact__p fade'>Si te gustó mi portfolio no dudes en enviarme un e-mail clickeando el botón de abajo. También tenés
-                disponible otras formas de comunicarte conmigo en esta página.
+              <h2 className='contact__title titles fade' >{pregunta ? 'Contactame' : 'Contact me'}</h2>
+              <p className='contact__p fade'>
+                {pregunta ? frases.contactEs.teGusto : frases.contactEn.liked}
               </p>
-              <a className='contact__btn fade' href='mailto:fbenitez98.fb@gmail.com' rel='noopener noreferrer' target="_blank">Enviar e-mail</a>
+              <a className='contact__btn fade' href='mailto:fbenitez98.fb@gmail.com' rel='noopener noreferrer' target="_blank">
+                {pregunta ? 'Enviar' : 'Send'} e-mail
+              </a>
             </div>
           </section>
           <footer className='footer'>
@@ -328,7 +402,7 @@ class App extends React.Component{
               <li className='leftside__ul-li li-6' ><a href='https://twitter.com/Fercha_dev' target='_blank'rel='noopener noreferrer'  ><FontAwesomeIcon icon={faTwitter} /></a></li>
             </ul>
 
-            <p className='footer__legend' >Diseñado y Construido por Fernando Benitez.</p>
+            <p className='footer__legend' >{pregunta ? frases.contactEs.footerEs : frases.contactEn.footerEn}</p>
 
           </footer>
 

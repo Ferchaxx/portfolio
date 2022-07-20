@@ -3,13 +3,17 @@ import React from "react";
 
 const Carousel = (props) =>{
 
+    const language = props.language;
 
+    const espanol = 'Español (Es)';
+
+    const pregunta = language === espanol;
 
     return(
 
     <section id="projects" className="section__projects" >
 
-        <h2 className="projects__title secondary__titles fade" >Proyectos</h2>
+        <h2 className="projects__title secondary__titles fade" >{pregunta ? 'Proyectos' : 'Projects'}</h2>
 
         <div className="carousel__container fade">
 
